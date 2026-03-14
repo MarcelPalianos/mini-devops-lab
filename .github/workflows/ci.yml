@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  docker-build:
+  docker-build-and-run:
     runs-on: ubuntu-latest
 
     steps:
@@ -15,3 +15,6 @@ jobs:
 
       - name: Build Docker image
         run: docker build -t mini-devops-lab .
+
+      - name: Run Docker container
+        run: docker run --rm mini-devops-lab
