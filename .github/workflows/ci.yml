@@ -6,15 +6,21 @@ on:
       - main
 
 jobs:
-  docker-build-and-run:
+  docker-build-and-push:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Build Docker image
-        run: docker build -t mini-devops-lab .
+      - name: Log in to GitHub Container Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-      - name: Run Docker container
-        run: docker run --rm mini-devops-lab
+      - name: Build Docker image
+        run: docker build -t ghcr.io/${{ github.repository_owner }}/mini-devops-lab:latest .
+
+      - name: Push Docker image
+        run: docker push ghcr.io/${{ github.repository_owner }}/mini-devops-lab:latest
