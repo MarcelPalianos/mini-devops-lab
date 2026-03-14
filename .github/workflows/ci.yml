@@ -6,18 +6,12 @@ on:
       - main
 
 jobs:
-  first-job:
+  docker-build:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Show current files
-        run: ls -la
-
-      - name: Show working directory
-        run: pwd
-
-      - name: Print message
-        run: echo "Pipeline is working successfully"
+      - name: Build Docker image
+        run: docker build -t mini-devops-lab .
